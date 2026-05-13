@@ -427,14 +427,81 @@
   @media (max-width: 768px) {
     nav { padding: 16px 20px; }
     .nav-links { display: none; }
-    section { padding: 72px 20px; }
+    section { padding: 60px 20px; }
     .hero { padding: 100px 20px 60px; }
+    .hero-trust { gap: 24px; }
+
+    /* Steps grid — 1 coluna */
+    .steps-grid { grid-template-columns: 1fr; }
+
+    /* Métodos de marcação — 1 coluna */
+    .methods-grid { grid-template-columns: 1fr; }
+
+    /* Aviso */
+    .aviso-box { flex-direction: column; gap: 12px; padding: 20px; }
+
+    /* Tabela reparos — esconde coluna de descrição */
+    .repair-row { grid-template-columns: 1fr 1fr; }
+    .repair-cell:nth-child(2) { display: none; }
+
+    /* Sob medida — 1 coluna */
+    #sob-medida .grid-sob-medida { grid-template-columns: 1fr !important; }
+    #sob-medida [style*="grid-template-columns: 1fr 1fr"] { 
+      grid-template-columns: 1fr !important; 
+    }
+    #sob-medida [style*="display: grid"] { 
+      grid-template-columns: 1fr !important; 
+    }
+    #sob-medida [style*="justify-content: space-between"] {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+    }
+
+    /* Kit — 1 coluna */
     .kit-grid { grid-template-columns: 1fr; }
+
+    /* CTA steps — coluna */
     .cta-steps { flex-direction: column; }
     .cta-step { border-right: none; border-bottom: 1px solid var(--border); }
     .cta-step:last-child { border-bottom: none; }
-    .repair-row { grid-template-columns: 1fr 1fr; }
-    .repair-cell:nth-child(2) { display: none; }
+
+    /* Botão WhatsApp menor */
+    .btn-whatsapp { padding: 16px 28px; font-size: 15px; }
+
+    /* Hero actions — coluna */
+    .hero-actions { flex-direction: column; align-items: flex-start; gap: 16px; }
+
+    /* Títulos menores */
+    .section-title { font-size: 28px; }
+  }
+  @media (max-width: 768px) {
+    #hamburger { display: flex !important; }
+    .nav-links {
+      display: none;
+      position: fixed; top: 60px; left: 0; right: 0;
+      background: var(--warm-white);
+      flex-direction: column;
+      padding: 20px 24px 28px;
+      gap: 4px;
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 8px 24px rgba(28,28,26,0.1);
+      z-index: 99;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { 
+      font-size: 15px !important; 
+      color: var(--charcoal) !important;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-links a:last-child { border-bottom: none; }
+    .nav-cta {
+      background: none !important;
+      color: var(--rose) !important;
+      padding: 10px 0 !important;
+      border-radius: 0 !important;
+      font-size: 15px !important;
+    }
   }
 </style>
 </head>
@@ -443,13 +510,18 @@
 <!-- NAV -->
 <nav>
   <div class="nav-logo">Ateliê <span>em Casa</span></div>
-  <div class="nav-links">
-    <a href="#como-funciona">Como funciona</a>
-    <a href="#marcacao">Como marcar</a>
-    <a href="#reparos">Preços</a>
-    <a href="#sob-medida">Sob medida</a>
-    <a href="#contato" class="nav-cta">Fazer pedido</a>
+  <div class="nav-links" id="nav-links">
+    <a href="#como-funciona" onclick="closeMenu()">Como funciona</a>
+    <a href="#marcacao" onclick="closeMenu()">Como marcar</a>
+    <a href="#reparos" onclick="closeMenu()">Preços</a>
+    <a href="#sob-medida" onclick="closeMenu()">Sob medida</a>
+    <a href="#contato" class="nav-cta" onclick="closeMenu()">Fazer pedido</a>
   </div>
+  <button id="hamburger" onclick="toggleMenu()" style="display:none;background:none;border:none;cursor:pointer;padding:4px;flex-direction:column;gap:5px;align-items:center;justify-content:center;">
+    <span style="display:block;width:22px;height:2px;background:var(--charcoal);border-radius:2px;transition:all 0.3s;"></span>
+    <span style="display:block;width:22px;height:2px;background:var(--charcoal);border-radius:2px;transition:all 0.3s;"></span>
+    <span style="display:block;width:22px;height:2px;background:var(--charcoal);border-radius:2px;transition:all 0.3s;"></span>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -837,6 +909,15 @@ function toggleFaq(btn) {
   const isOpen = item.classList.contains('open');
   document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
   if (!isOpen) item.classList.add('open');
+}
+
+function toggleMenu() {
+  const links = document.getElementById('nav-links');
+  links.classList.toggle('open');
+}
+
+function closeMenu() {
+  document.getElementById('nav-links').classList.remove('open');
 }
 </script>
 </body>
